@@ -10,13 +10,30 @@ class LDAPController extends Controller
     public function index()
     {
         $ldapConnection = Container::getConnection('default');
+
         try {
             $ldapConnection->connect();
             $users = User::get();
 
-            $formattedUsers = $users->toArray();
+            $filteredUsers = $users->filter(function ($user) {
+                return $user->hasAttribute('employeeid');
+            });
 
-            return response()->json($formattedUsers);
+            $formattedUsers = $filteredUsers->transform(function ($user) {
+                return [
+                    'employeeid' => $user->getFirstAttribute('employeeid'),
+                    'cn' => $user->getFirstAttribute('cn'),
+                    'name' => $user->getFirstAttribute('name'),
+                    'email' => $user->getFirstAttribute('mail'),
+                ];
+            });
+
+            $response = [
+                'total' => $filteredUsers->count(),
+                'users' => $formattedUsers
+            ];
+
+            return response()->json($response);
         } catch (\LdapRecord\Auth\BindException $e) {
             return response()->json(['error' => 'Could not connect to LDAP server'], 500);
         }

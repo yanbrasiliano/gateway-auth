@@ -2,9 +2,10 @@
 
 namespace App\Repositories\LDAP;
 
-use App\Repositories\Contracts\LDAP\LDAPRepositoryInterface;
 use LdapRecord\Container;
-use LdapRecord\Connection;
+use App\Enums\LDAPAuthEnum;
+use LdapRecord\Models\ActiveDirectory\User as LdapUser;
+use App\Repositories\Contracts\LDAP\LDAPRepositoryInterface;
 
 class LdapRepository implements LDAPRepositoryInterface
 {
@@ -12,18 +13,30 @@ class LdapRepository implements LDAPRepositoryInterface
 
     public function __construct()
     {
-        // Assume that you have set up your LDAP connection settings in your .env file
         $this->connection = Container::getConnection('default');
     }
+
 
     public function authenticate($cpf, $password)
     {
         try {
+            $user = LdapUser::findBy('employeeid', $cpf);
 
-            // Attempt to authenticate the user
-            return $this->connection->auth()->attempt($cpf, $password);
+            if (!$user) {
+                return LDAPAuthEnum::USER_NOT_FOUND;
+            }
+
+            if ($this->connection->auth()->attempt($user->getDn(), $password)) {
+                return LDAPAuthEnum::AUTHENTICATED;
+            }
+
+            return LDAPAuthEnum::INVALID_CREDENTIALS;
         } catch (\LdapRecord\Auth\BindException $e) {
-            return false;
+            return
+            [
+                'error' => LDAPAuthEnum::LDAP_ERROR,
+                'message' => $e->getMessage(),
+            ];
         }
     }
 }

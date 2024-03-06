@@ -2,10 +2,7 @@
 
 namespace App\Services;
 
-use Throwable;
-use Illuminate\Support\Facades\Hash;
 use App\Repositories\LDAP\LDAPRepository;
-use App\Enums\HTTPStatusCodeEnum;
 
 class AuthService
 {

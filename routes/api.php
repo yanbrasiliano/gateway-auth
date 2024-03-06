@@ -26,7 +26,6 @@ Route::prefix('v1')->group(function () {
             return $request->user();
         });
 
-        Route::get('/me', [AuthController::class, 'me']);
         Route::post('/logout', [AuthController::class, 'logout']);
     });
 });
