@@ -38,7 +38,9 @@ RUN apt-get update && apt-get install -y \
     pngquant \
     gifsicle \
     libxml2-dev \
-    libldap2-dev
+    libldap2-dev \
+    zip \
+    unzip
 
 # Instalando extensões do PHP
 RUN docker-php-ext-configure zip

@@ -1,0 +1,18 @@
+### GENERATE TOKEN FOR CLIENT
+# @name auth
+
+POST {{baseUrl}}/api/v1/login
+Content-Type: application/json
+
+{
+    "cpf": "02476333565",
+    "password": "102030",
+}
+
+###
+#CPF 1: 02476333565
+#CPF 2: 46220160525
+#CPF 3: 00365263559
+#senha: 102030
+#@token = {{ auth.response.body.access_token }}
+###

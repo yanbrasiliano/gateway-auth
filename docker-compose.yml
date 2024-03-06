@@ -19,13 +19,15 @@ services:
       APP_ENV: local
       APP_DEBUG: "true"
     command: /bin/bash -c "./permissions.sh && supervisord -c /etc/supervisor/conf.d/supervisord.conf"
+    networks:
+      - uefs-network
 
   db:
     image: postgres:latest
     container_name: base-db
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: database
       POSTGRES_USER: admin
@@ -42,3 +44,7 @@ services:
 volumes:
   pg_data:
     driver: local
+
+networks:
+  uefs-network:
+    name: uefs-network
