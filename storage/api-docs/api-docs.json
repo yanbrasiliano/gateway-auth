@@ -10,7 +10,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Autentica um usuário.",
+                "summary": "Autentica um usuário via LDAP",
                 "description": "Autentica um usuário usando CPF e senha.",
                 "operationId": "login",
                 "requestBody": {
@@ -109,6 +109,67 @@
                     },
                     "500": {
                         "description": "Erro ao conectar ao servidor LDAP"
+                    }
+                }
+            }
+        },
+        "/api/v1/ldap/getByCPF": {
+            "get": {
+                "tags": [
+                    "LDAP"
+                ],
+                "summary": "Recupera usuário LDAP pelo CPF",
+                "description": "Retorna detalhes do usuário LDAP baseado no CPF fornecido",
+                "operationId": "getByCpf",
+                "parameters": [
+                    {
+                        "name": "cpf",
+                        "in": "query",
+                        "description": "CPF do usuário a ser recuperado",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação bem-sucedida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "employeeid": {
+                                                    "type": "string"
+                                                },
+                                                "cn": {
+                                                    "type": "string"
+                                                },
+                                                "dn": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno no servidor"
                     }
                 }
             }
