@@ -14,15 +14,16 @@ class LDAPController extends Controller
         try {
             $ldapConnection->connect();
             $users = User::get();
-
             $filteredUsers = $users->filter(function ($user) {
                 return $user->hasAttribute('employeeid');
             });
+
 
             $formattedUsers = $filteredUsers->transform(function ($user) {
                 return [
                     'employeeid' => $user->getFirstAttribute('employeeid'),
                     'cn' => $user->getFirstAttribute('cn'),
+                    'dn' => $user->getDn(),
                     'name' => $user->getFirstAttribute('name'),
                     'email' => $user->getFirstAttribute('mail'),
                 ];

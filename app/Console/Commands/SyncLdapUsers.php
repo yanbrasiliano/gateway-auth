@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\LDAPUser;
+use Illuminate\Console\Command;
 use App\LDAP\User as LDAPUserModel;
+use Illuminate\Support\Facades\Log;
 
 class SyncLdapUsers extends Command
 {
@@ -14,16 +15,22 @@ class SyncLdapUsers extends Command
     public function handle()
     {
         $ldapUsers = LDAPUserModel::get();
-
         foreach ($ldapUsers as $ldapUser) {
             if ($ldapUser->hasAttribute('employeeid')) {
-                LDAPUser::updateOrCreate(
-                    ['cpf' => $ldapUser->getFirstAttribute('employeeid')],
-                    [
-                        'name' => $ldapUser->getFirstAttribute('cn'),
-                        'email' => $ldapUser->getFirstAttribute('mail') 
-                    ]
-                );
+                $cpf = preg_replace('/\D/', '', $ldapUser->getFirstAttribute('employeeid'));
+
+                if (strlen($cpf) === 11) {
+                    LDAPUser::updateOrCreate(
+                        ['cpf' => $cpf],
+                        [
+                            'name' => $ldapUser->getFirstAttribute('cn'),
+                            'email' => $ldapUser->getFirstAttribute('mail'),
+                            'dn' => $ldapUser->getDn(),
+                        ]
+                    );
+                } else {
+                    Log::warning("Invalid CPF FOUND: {$cpf}");
+                }
             }
         }
 

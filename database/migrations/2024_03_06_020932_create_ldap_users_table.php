@@ -10,6 +10,7 @@ class CreateLdapUsersTable extends Migration
     {
         Schema::create('ldap_users', function (Blueprint $table) {
             $table->id();
+            $table->string('dn')->nullable()->unique();
             $table->string('cpf')->unique();
             $table->string('email');
             $table->string('name');

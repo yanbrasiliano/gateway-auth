@@ -12,7 +12,7 @@ use App\Http\Controllers\Auth\AuthController;
 */
 
 Route::prefix('v1')->group(function () {
-    // Rotas públicas
+    // Public routes (no authentication required)
     Route::get('/', function () {
         return response()->json(['message' => 'API ONLINE', 'env' => app()->environment()]);
     });
@@ -20,7 +20,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/ldap', [LDAPController::class, 'index']);
 
-    // Rotas protegidas pelo Sanctum
+    // Routes protected by Sanctum middleware (auth:sanctum)
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', function (Request $request) {
             return $request->user();

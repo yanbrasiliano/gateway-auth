@@ -32,11 +32,7 @@ class LdapRepository implements LDAPRepositoryInterface
 
             return LDAPAuthEnum::INVALID_CREDENTIALS;
         } catch (\LdapRecord\Auth\BindException $e) {
-            return
-            [
-                'error' => LDAPAuthEnum::LDAP_ERROR,
-                'message' => $e->getMessage(),
-            ];
+            return LDAPAuthEnum::LDAP_ERROR;
         }
     }
 }

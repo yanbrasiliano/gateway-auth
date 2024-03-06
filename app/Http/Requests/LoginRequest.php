@@ -31,7 +31,7 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.cpf' => 'The cpf field must be a valid CPF number.',
+            'cpf.required' => 'The cpf field must be a valid CPF number.',
             'cpf.cpf' => 'The cpf field must be a valid CPF number.',
             'password.required' => 'The password field is required.',
         ];
