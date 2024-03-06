@@ -1,0 +1,117 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "AUTH API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Autentica um usuário.",
+                "description": "Autentica um usuário usando CPF e senha.",
+                "operationId": "login",
+                "requestBody": {
+                    "description": "Dados de autenticação do usuário",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cpf",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "cpf": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "12345678901"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "yourpassword"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Autenticação bem-sucedida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Autenticação realizada com sucesso no servidor LDAP."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "AUTENTICADO"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas ou usuário não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Credenciais inválidas ou usuário não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro interno do servidor."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/ldap": {
+            "get": {
+                "tags": [
+                    "LDAP"
+                ],
+                "summary": "Lista usuários LDAP",
+                "operationId": "64c779779330ca1a6f3b2ac5c5a6f40e",
+                "responses": {
+                    "200": {
+                        "description": "Operação bem-sucedida"
+                    },
+                    "500": {
+                        "description": "Erro ao conectar ao servidor LDAP"
+                    }
+                }
+            }
+        }
+    }
+}

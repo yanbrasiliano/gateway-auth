@@ -5,8 +5,24 @@ namespace App\Http\Controllers;
 use LdapRecord\Container;
 use App\LDAP\User;
 
+
 class LDAPController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/v1/ldap",
+     *     summary="Lista usuários LDAP",
+     *     tags={"LDAP"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Operação bem-sucedida"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Erro ao conectar ao servidor LDAP"
+     *     )
+     * )
+     */
     public function index()
     {
         $ldapConnection = Container::getConnection('default');

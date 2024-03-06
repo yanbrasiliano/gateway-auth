@@ -7,7 +7,7 @@ use App\Enums\LDAPAuthEnum;
 use LdapRecord\Models\ActiveDirectory\User as LdapUser;
 use App\Repositories\Contracts\LDAP\LDAPRepositoryInterface;
 
-class LdapRepository implements LDAPRepositoryInterface
+class LDAPRepository implements LDAPRepositoryInterface
 {
     protected $connection;
 

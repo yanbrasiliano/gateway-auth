@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Contracts\LDAP;
 
-interface LdapRepositoryInterface
+interface LDAPRepositoryInterface
 {
     public function authenticate($username, $password);
 }
