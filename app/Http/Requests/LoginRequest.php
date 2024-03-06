@@ -24,16 +24,16 @@ class LoginRequest extends FormRequest
     {
         return [
             'cpf' => ['required', new ValidCPF()],
-            'password' => 'required',
+            'password' => 'required|string',
         ];
     }
 
     public function messages()
     {
         return [
-            'cpf.required' => 'The cpf field must be a valid CPF number.',
-            'cpf.cpf' => 'The cpf field must be a valid CPF number.',
-            'password.required' => 'The password field is required.',
+            'cpf.required' => 'O campo CPF é obrigatório.',
+            'cpf.string' => 'O campo CPF deve ser uma string.',
+            'password.required' => 'O campo senha é obrigatório.',
         ];
     }
 }

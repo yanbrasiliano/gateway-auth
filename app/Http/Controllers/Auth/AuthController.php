@@ -28,11 +28,11 @@ class AuthController extends Controller
         $authResult = $this->authService->authenticate($auth->cpf, $auth->password);
 
         $response = match ($authResult) {
-            LDAPAuthEnum::AUTHENTICATED => $this->createResponse(LDAPAuthEnum::AUTHENTICATED, 'Authenticated successfully with LDAP server.', HTTPStatusCodeEnum::OK),
-            LDAPAuthEnum::USER_NOT_FOUND => $this->createResponse(LDAPAuthEnum::USER_NOT_FOUND, 'User not found in LDAP server. Please, try again.', HTTPStatusCodeEnum::NOT_FOUND),
-            LDAPAuthEnum::INVALID_CREDENTIALS => $this->createResponse(LDAPAuthEnum::INVALID_CREDENTIALS, 'Invalid credentials provided. Please, try again.', HTTPStatusCodeEnum::UNAUTHORIZED),
-            LDAPAuthEnum::LDAP_ERROR => $this->createResponse(LDAPAuthEnum::LDAP_ERROR, 'LDAP server error occurred. Please, try again later.', HTTPStatusCodeEnum::INTERNAL_SERVER_ERROR),
-            default => $this->createResponse(LDAPAuthEnum::UNKNOWN_ERROR, 'Unknown error occurred. Please, try again later.', HTTPStatusCodeEnum::UNAUTHORIZED),
+            LDAPAuthEnum::AUTHENTICATED => $this->createResponse('AUTENTICADO', 'Autenticação realizada com sucesso no servidor LDAP.', HTTPStatusCodeEnum::OK),
+            LDAPAuthEnum::USER_NOT_FOUND => $this->createResponse('USUÁRIO_NÃO_ENCONTRADO', 'Usuário não encontrado no servidor LDAP. Por favor, tente novamente.', HTTPStatusCodeEnum::NOT_FOUND),
+            LDAPAuthEnum::INVALID_CREDENTIALS => $this->createResponse('CREDENCIAIS_INVÁLIDAS', 'Credenciais fornecidas inválidas. Por favor, tente novamente.', HTTPStatusCodeEnum::UNAUTHORIZED),
+            LDAPAuthEnum::LDAP_ERROR => $this->createResponse('ERRO_LDAP', 'Ocorreu um erro de servidor LDAP durante a tentativa de autenticação do usuário. Por favor, tente mais tarde.', HTTPStatusCodeEnum::INTERNAL_SERVER_ERROR),
+            default => $this->createResponse('ERRO_DESCONHECIDO', 'Ocorreu um erro desconhecido durante a tentativa de autenticação do usuário. Por favor, tente mais tarde.', HTTPStatusCodeEnum::UNAUTHORIZED),
         };
 
         return $this->createJsonResponse($response);
