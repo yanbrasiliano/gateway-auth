@@ -19,7 +19,7 @@ class ValidCPF implements ValidationRule
         $cpf = preg_replace('/\D/', '', $value);
 
         if (strlen($cpf) != 11 || preg_match('/(\d)\1{10}/', $cpf)) {
-            $fail('The :attribute is not a valid CPF number.');
+            $fail('O :attribute informado não é válido.');
             return;
         }
 
@@ -29,7 +29,7 @@ class ValidCPF implements ValidationRule
             }
             $d = ((10 * $d) % 11) % 10;
             if ($cpf[$c] != $d) {
-                $fail('The :attribute is not a valid CPF number.');
+                $fail('O :attribute informado não é válido.');
                 return;
             }
         }

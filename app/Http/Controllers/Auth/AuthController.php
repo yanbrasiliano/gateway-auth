@@ -32,7 +32,7 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/api/v1/login",
-     *     summary="Autentica um usuário.",
+     *     summary="Autentica um usuário via LDAP",
      *     tags={"Auth"},
      *     description="Autentica um usuário usando CPF e senha.",
      *     operationId="login",
