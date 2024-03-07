@@ -3,22 +3,34 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Response;
+use App\Enums\HTTPStatusCodeEnum;
+use App\Enums\ResponseStatusEnum;
 
 trait RestResponseTrait
 {
-    public function createResponse($message, $details, $status): array
+    public function createSuccessResponse(string $message, ?array $data = null): JsonResponse
     {
-        return [
-            'data' => [
-                'status' => $status->value,
-                'message' => $message,
-                'details' => $details
-            ]
+        $response = [
+            'status' => ResponseStatusEnum::SUCCESS->value,
+            'message' => $message,
         ];
+
+        $data && $response['data'] = $data;
+
+
+        return Response::json($response, HTTPStatusCodeEnum::OK->value);
     }
 
-    public function createJsonResponse(array $response): JsonResponse
+
+    public function createErrorResponse(string $message, $errors, HTTPStatusCodeEnum $statusCode): JsonResponse
     {
-        return response()->json($response, $response['data']['status']);
+        $response = [
+            'status' => ResponseStatusEnum::ERROR->value,
+            'message' => $message,
+            'errors' => $errors
+        ];
+
+        return Response::json($response, $statusCode->value);
     }
 }
